@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DMD 굿즈 제작 제안서</title>
+    <link
+      rel="stylesheet"
+      as="style"
+      crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css"
+    />
+    <style>
+      :root {
+        --primary-color: #2563eb;
+        --bg-color: #f8f9fa;
+        --text-color: #333;
+        --card-bg: #ffffff;
+      }
+
+      body {
+        font-family: 'Pretendard', sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+      }
+
+      /* 헤더 스타일 */
+      header {
+        background-color: #fff;
+        padding: 2rem 1rem;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 1.8rem;
+        color: #111;
+      }
+
+      header p {
+        color: #666;
+        margin-top: 10px;
+      }
+
+      /* 메인 컨테이너 */
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+
+      /* 그리드 레이아웃 */
+      .goods-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-bottom: 50px;
+      }
+
+      /* 카드 스타일 */
+      .card {
+        background: var(--card-bg);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-img {
+        width: 100%;
+        height: 200px;
+        background-color: #eee;
+        object-fit: cover;
+      }
+
+      .card-body {
+        padding: 20px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .badge {
+        display: inline-block;
+        background-color: #e3effd;
+        color: var(--primary-color);
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        width: fit-content;
+      }
+
+      .card-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin: 0 0 10px 0;
+      }
+
+      .card-desc {
+        font-size: 0.9rem;
+        color: #555;
+        margin-bottom: 15px;
+        flex-grow: 1;
+      }
+
+      .price-info {
+        background-color: #f1f3f5;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+      }
+
+      .price-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9rem;
+        margin-bottom: 4px;
+      }
+
+      .price-row.total {
+        font-weight: bold;
+        color: var(--primary-color);
+        border-top: 1px solid #ddd;
+        padding-top: 5px;
+        margin-top: 5px;
+      }
+
+      .btn-link {
+        display: block;
+        width: 100%;
+        padding: 12px 0;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: background 0.2s;
+      }
+
+      .btn-link:hover {
+        background-color: #111;
+      }
+
+      /* 예산 요약 섹션 */
+      .summary-section {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        border: 1px solid #e1e1e1;
+      }
+
+      .summary-title {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #333;
+        padding-bottom: 10px;
+      }
+
+      /* 인당 단가 강조 박스 */
+      .per-person-box {
+        background-color: #eef2ff;
+        border: 1px solid #c7d2fe;
+        color: #312e81;
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: bold;
+        font-size: 1.1rem;
+      }
+
+      .summary-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .summary-table th,
+      .summary-table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+      }
+
+      .summary-table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+      }
+
+      .summary-table tr:last-child {
+        border-bottom: 2px solid #ddd;
+      }
+
+      .total-sum {
+        font-size: 1.4rem;
+        font-weight: bold;
+        text-align: right;
+        padding-top: 20px;
+        color: var(--primary-color);
+      }
+
+      /* 모바일 대응 */
+      @media (max-width: 600px) {
+        .goods-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>DMD 웰컴키트 구성 제안 리스트</h1>
+      <p>예산 범위 결정을 위한 품목별 단가 및 상세 정보 보고</p>
+    </header>
+
+    <main class="container">
+      <div class="goods-grid">
+        <div class="card">
+          <img
+            src="https://cafe24.poxo.com/ec01/hedrin/qG7W5YG4u15UcFpJqE8Uf5cvFR1vPoZ8zmtaxSOqN0dRj2EX3pGVBTp7bTGn1w7Xrle0QO/KZ8XIJSa5jLXaVA==/_/web/product/big/202502/4fa632e92353ffd27256d27f0c13ce95.png"
+            alt="아크릴 펜"
+            class="card-img"
+          />
+          <div class="card-body">
+            <span class="badge">필기구</span>
+            <h3 class="card-title">아크릴 캐릭터 볼펜</h3>
+            <p class="card-desc">
+              DMD 텍스트 로고 또는 자체 캐릭터를 아크릴 캐릭터 OR 로고로
+              제작하여 부착
+            </p>
+            <div class="price-info">
+              <div class="price-row">
+                <span>개당 예상 단가</span>
+                <span>2,300원</span>
+              </div>
+              <div class="price-row">
+                <span>최소 주문(MOQ)</span>
+                <span>100개</span>
+              </div>
+            </div>
+            <a
+              href="https://allthatprinting.co.kr/product/%EB%B3%BC%ED%8E%9C-%EC%A0%9C%EC%9E%91-%EC%9C%A0%EC%83%89-%EC%95%84%ED%81%AC%EB%A6%B4-%EC%BA%90%EB%A6%AD%ED%84%B0-%EB%A1%9C%EA%B3%A0-%EA%B0%81%EC%9D%B8%EB%B3%BC%ED%8E%9C-%ED%8C%90%EC%B4%89-%EC%84%A0%EB%AC%BC-%EA%B8%B0%EB%85%90%ED%92%88-%ED%8E%9C/2989/category/280/display/1/#none"
+              class="btn-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              >상세 페이지 확인</a
+            >
+          </div>
+        </div>
+
+        <div class="card">
+          <img
+            src="https://image1.marpple.co/files/u_1325934/2021/1/original/c4c9f6d8d754279606e7c03c19a46db38dd340253.jpg?q=90&w=960&f=jpg"
+            alt="A5 노트"
+            class="card-img"
+          />
+          <div class="card-body">
+            <span class="badge">문구류</span>
+            <h3 class="card-title">Kaywon DMD A5 노트</h3>
+            <p class="card-desc">
+              깔끔한 화이트/무지 배경에 학과 로고 인쇄. 전공 수업 및 아이디어
+              스케치용으로 적합.
+            </p>
+            <div class="price-info">
+              <div class="price-row">
+                <span>개당 예상 단가</span>
+                <span>2,050원</span>
+              </div>
+              <div class="price-row">
+                <span>최소 주문(MOQ)</span>
+                <span>1개 (대량 가능)</span>
+              </div>
+            </div>
+            <a
+              href="https://www.marpple.com/kr/product/detail?bp_id=4579"
+              class="btn-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              >상세 페이지 확인</a
+            >
+          </div>
+        </div>
+
+        <div class="card">
+          <img
+            src="https://cafe24.poxo.com/ec01/hedrin/qG7W5YG4u15UcFpJqE8Uf5cvFR1vPoZ8zmtaxSOqN0dRj2EX3pGVBTp7bTGn1w7Xrle0QO/KZ8XIJSa5jLXaVA==/_/web/product/big/202406/1d552ddc4da126c6dadff4052c75384a.jpg"
+            alt="야광 키링"
+            class="card-img"
+          />
+          <div class="card-body">
+            <span class="badge">악세사리</span>
+            <h3 class="card-title">커스텀 야광 키링</h3>
+            <p class="card-desc">
+              로고 및 캐릭터 모양 제작. 어두운 곳에서 빛나는 야광 재질로 힙한
+              감성 연출.
+            </p>
+            <div class="price-info">
+              <div class="price-row">
+                <span>개당 예상 단가</span>
+                <span>3,450원</span>
+              </div>
+              <div class="price-row">
+                <span>최소 주문(MOQ)</span>
+                <span>100개</span>
+              </div>
+            </div>
+            <a
+              href="https://allthatprinting.co.kr/product/%EC%95%84%ED%81%AC%EB%A6%B4%ED%82%A4%EB%A7%81-%EC%A3%BC%EB%AC%B8%EC%A0%9C%EC%9E%91-%EC%95%BC%EA%B4%91-%ED%82%A4%EB%A7%81-%EC%B6%95%EA%B4%91-%ED%98%95%EA%B4%91/2285/category/164/display/1/"
+              class="btn-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              >상세 페이지 확인</a
+            >
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="USB_logo.jpg" alt="USB" class="card-img" />
+          <div class="card-body">
+            <span class="badge">디지털</span>
+            <h3 class="card-title">메탈 스틱 USB (64GB)</h3>
+            <p class="card-desc">
+              DMD 로고 레이저 각인. 과제 제출 및 포트폴리오 저장용 필수 아이템.
+              (메탈 소재/박스 포장)
+            </p>
+            <div class="price-info">
+              <div class="price-row">
+                <span>개당 예상 단가</span>
+                <span>5,640원</span>
+              </div>
+              <div class="price-row">
+                <span>최소 주문(MOQ)</span>
+                <span>60개</span>
+              </div>
+            </div>
+            <a
+              href="https://www.jlcpromo.com/product_w/product_view_d.asp?p_idx=290840&a_code=&b_code="
+              class="btn-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              >상세 페이지 확인</a
+            >
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="파우치img.jpg" alt="파우치" class="card-img" />
+          <div class="card-body">
+            <span class="badge">패키지</span>
+            <h3 class="card-title">캔버스 파우치 (네이비)</h3>
+            <p class="card-desc">
+              위 4가지 굿즈를 모두 담을 수 있는 패키지 역할. 실용적인 사이즈와
+              튼튼한 재질.
+            </p>
+            <div class="price-info">
+              <div class="price-row">
+                <span>개당 예상 단가</span>
+                <span>3,780원</span>
+              </div>
+              <div class="price-row">
+                <span>최소 주문(MOQ)</span>
+                <span>100개</span>
+              </div>
+            </div>
+            <a
+              href="https://koreagift.com/ez/mall.php?cat=003005011&query=view&no=176477"
+              class="btn-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              >상세 페이지 확인</a
+            >
+          </div>
+        </div>
+
+        <div class="card">
+          <img
+            src="https://cloudfront.imggift.com/shop_images/ga/a/08/thumb-1423633188152_l_400x350.jpg"
+            alt="밍크 담요"
+            class="card-img"
+          />
+          <div class="card-body">
+            <span class="badge">생활용품</span>
+            <h3 class="card-title">베이직 밍크 극세사 담요</h3>
+            <p class="card-desc">
+              <strong>비고: 작년 신입생 웰컴키트 구매상품</strong><br />
+              부드러운 촉감과 뛰어난 보온성
+              <span style="font-size: 0.7rem">(학생만족도👍)</span>
+            </p>
+            <div class="price-info">
+              <div class="price-row">
+                <span>개당 예상 단가</span>
+                <span>5,590원</span>
+              </div>
+              <div class="price-row">
+                <span>최소 주문(MOQ)</span>
+                <span>100개</span>
+              </div>
+            </div>
+            <a
+              href="https://www.juagift.com/new/shop/detail.php?start=&code=1810250&cid=526&price1=&price2="
+              class="btn-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              >상세 페이지 확인</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <section class="summary-section">
+        <h2 class="summary-title">📊 150세트 제작 시 예상 견적 요약</h2>
+        <p style="color: #666; margin-bottom: 20px">
+          ※ 인쇄 옵션, 배송비, 부가세 포함 여부에 따라 최종 금액은 변동될 수
+          있습니다.
+        </p>
+
+        <div class="per-person-box">
+          학생 1인당 풀세트 구성 단가 : 약 22,810원
+        </div>
+
+        <table class="summary-table">
+          <thead>
+            <tr>
+              <th>품목</th>
+              <th>개당 단가 (예상)</th>
+              <th>150개 합계</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>아크릴 캐릭터 펜</td>
+              <td>2,300원</td>
+              <td>345,000원</td>
+            </tr>
+            <tr>
+              <td>A5 노트</td>
+              <td>2,050원</td>
+              <td>307,500원</td>
+            </tr>
+            <tr>
+              <td>야광 키링</td>
+              <td>3,450원</td>
+              <td>517,500원</td>
+            </tr>
+            <tr>
+              <td>메탈 USB (64GB)</td>
+              <td>5,640원</td>
+              <td>846,000원</td>
+            </tr>
+            <tr>
+              <td>파우치 (네이비)</td>
+              <td>3,780원</td>
+              <td>567,000원</td>
+            </tr>
+            <tr>
+              <td>밍크 극세사 담요</td>
+              <td>5,590원</td>
+              <td>838,500원</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="total-sum">총 예상 소요 예산: 약 3,421,500원</div>
+      </section>
+    </main>
+
+    <footer
+      style="text-align: center; padding: 40px; color: #888; font-size: 0.8rem"
+    >
+      &copy; 2026 디지털 미디어 디자인과 신입생 웰컴키트 구매 제안 보고서
+    </footer>
+  </body>
+</html>
